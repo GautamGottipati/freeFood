@@ -47,15 +47,15 @@ export class AuthService{
 
         if(this.accountType == "user"){
             return this.http.post(
-                'http://localhost:5001/user/loginUser',
-                // 'http://34.106.225.75:80/user/loginUser',
+                // 'http://localhost:5001/user/loginUser',
+                'http://34.28.94.134:80/user/loginUser',
                 formData
             );
 
         }
         if(this.accountType == "donor"){
             return this.http.post(
-                'http://localhost:8082/donor/loginDonor',
+                'http://35.222.197.250:80/donor/loginDonor',
                 formData
             );
         }
@@ -69,9 +69,11 @@ export class AuthService{
         formData.append('password',details.password)
         formData.append('phoneNumber',details.phoneNumber)
         console.log(details);
+        console.log("came here 1234");
+        
         return this.http.post(
-            'http://localhost:5001/user/createUser',
-            // 'http://34.106.225.75:80/user/createUser',
+            // 'http://localhost:5001/user/createUser',
+            'http://34.28.94.134:80/user/createUser',
             formData
         );  
     }

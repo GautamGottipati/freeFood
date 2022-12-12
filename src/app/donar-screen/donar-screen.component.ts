@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 import { DonarService } from './donar.service';
 
 @Component({
@@ -9,23 +10,31 @@ import { DonarService } from './donar.service';
 })
 export class DonarScreenComponent implements OnInit {
   
-  constructor(private route: Router, private donar: DonarService){}
+  constructor(private route: Router, private donar: DonarService, private authService: AuthService){}
+  donorEmail = this.authService.email;
 
   ngOnInit(): void {
-    this.items = this.donar.getUserFood();
+    console.log("Came into donor component");
+    
+    this.donar.getUserFood().subscribe(response=>{
+      this.items = response
+
+    });
+    console.log("Printing items::=>",this.items);
+    
   }
 
 
-  user: any = "<name>"
+  user: any = ""
 
-  items: any[];
+  items: any;
 
   giveFood(){
     this.route.navigate(['/upload']);
   }
 
   removeFood(name: any){
-    this.items = this.donar.deleteFood(name);
+    this.items = this.items.filter((obj: { foodName: string; }) => obj.foodName != name);
   }
 
 }

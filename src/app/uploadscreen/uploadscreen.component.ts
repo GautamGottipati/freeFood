@@ -3,6 +3,7 @@ import { Observable } from "rxjs";
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from "../auth.service";
 
 @Component({
   selector: 'app-uploadscreen',
@@ -17,6 +18,7 @@ export class UploadscreenComponent implements OnInit {
   isPincodeNull: boolean = false;
   isQuantityNull: boolean = false;
 
+
   uploadForm: FormGroup;
 
   foodItem: any;
@@ -24,7 +26,7 @@ export class UploadscreenComponent implements OnInit {
 
   ngOnInit(): void {
     this.uploadForm = new FormGroup({
-      'email' :new FormControl(null, [Validators.required, Validators.email]),
+      'email' :new FormControl(this.authService.email),
       'foodName': new FormControl(null, Validators.required),
       'description':  new FormControl(null, Validators.required),
       'address': new FormControl(null, Validators.required),
@@ -37,7 +39,7 @@ export class UploadscreenComponent implements OnInit {
     });
   }
 
-  constructor(private route: Router, private router:ActivatedRoute, private http: HttpClient){}
+  constructor(private route: Router, private router:ActivatedRoute, private http: HttpClient, private authService: AuthService){}
 
   onSubmit(){
     this.isLoading = true;
@@ -105,7 +107,7 @@ export class UploadscreenComponent implements OnInit {
 
         
         this.http.post(
-            'http://localhost:8082/donor/addFoodItem',
+            'http://35.222.197.250:80/donor/addFoodItem',
             formData
         ).subscribe(
           (      responseData: { hasOwnProperty: (arg0: string) => any; })=>{

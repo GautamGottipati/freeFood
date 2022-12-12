@@ -55,8 +55,8 @@ export class DonarRegistrationPageComponent implements OnInit {
         formData.append('pincode', this.user.password);
 
         return this.http.post(
-            'http://localhost:8082/donor/createDonor',
-            // 'http://34.106.225.75:80/user/createUser',
+            // 'http://localhost:8082/donor/createDonor',
+            'http://35.222.197.250:80/donor/createDonor',
             formData
         ).subscribe(
           (      responseData: { hasOwnProperty: (arg0: string) => any; })=>{

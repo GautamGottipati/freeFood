@@ -16,7 +16,8 @@
   <p>No items added ... </p>
 </div>
 <div class="container" *ngIf="foodAddedToCart.length > 0">
-  <table class="table">
+  <div class="lds-facebook" *ngIf="isLoading"><div></div><div></div><div></div></div>
+  <table class="table" *ngIf="!isLoading">
     <thead>
       <tr>
         <th scope="col">Food</th>

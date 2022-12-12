@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { cartList } from './cartList.service';
 
@@ -9,8 +10,9 @@ import { cartList } from './cartList.service';
   styleUrls: ['./cart-list.component.css']
 })
 export class CartListComponent implements OnInit {
+  isLoading: boolean = false;
 
-  constructor(private totalCart: cartList, private authService:AuthService, private http:HttpClient){}
+  constructor(private totalCart: cartList, private authService:AuthService, private http:HttpClient, private route: Router){}
 
   foodAddedToCart:any;
 
@@ -30,6 +32,7 @@ export class CartListComponent implements OnInit {
   checkout(){
 
     console.log("came here");
+    this.isLoading =  true;
 
     const myOrder: {[x:string]:string} = {};
 
@@ -43,7 +46,7 @@ export class CartListComponent implements OnInit {
 
     this.order = {
       'itemCart': myOrder,
-      'emailId' : this.foodAddedToCart[0].emailId
+      'emailId' : this.authService.email
     };
 
     console.log(this.authService.email);
@@ -52,8 +55,21 @@ export class CartListComponent implements OnInit {
     formData.append('itemCart',JSON.stringify(myOrder));
     formData.append('emailId',this.authService.email);
 
-    this.http.post('http://localhost:5001/user/orderCartItems',formData).subscribe(response=>{
+    this.http.post('http://34.28.94.134:80/user/orderCartItems',formData).subscribe(response=>{
       console.log(response);
+      if(response.hasOwnProperty('status')){
+        console.log("checking out...");
+        this.isLoading = false;
+        this.foodAddedToCart.splice(0);
+        this.route.navigate(['/thankyou'])
+        
+    }else if(response.hasOwnProperty('Error')){
+        this.isLoading = false;
+        alert(response);
+        console.log("No account found");
+        this.foodAddedToCart.splice(0);
+        this.route.navigate(['/foodList'])
+    }
       
     });
 

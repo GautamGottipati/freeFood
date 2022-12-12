@@ -32,7 +32,8 @@ const appRoutes: Routes = [
   {path: 'cartList', component: CartListComponent},
   {path: 'upload', component:UploadscreenComponent},
   {path: 'display', component:DonarScreenComponent},
-  {path: 'upload/confirm', component:DonarScreenComponent}
+  {path: 'upload/confirm', component:DonarScreenComponent},
+  {path: 'thankyou', component:ThankyouComponent}
 ]
 
 @NgModule({
